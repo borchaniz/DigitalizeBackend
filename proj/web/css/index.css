@@ -1,0 +1,192 @@
+* {
+    font-family: "navFont", Arial, Helvetica, sans-serif;
+}
+
+.opaque-navbar {
+    background-color: rgba(0, 0, 0, 0);
+    height: 60px;
+    border-bottom: 0px;
+    transition: background-color .5s ease 0s;
+}
+
+.opaque-navbar.opaque {
+    background-color: black;
+    height: 60px;
+    transition: background-color .5s ease 0s;
+}
+
+.opaque-navbar.semi-opaque {
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 60px;
+    transition: background-color .5s ease 0s;
+}
+
+.drop > li > a {
+    background-color: transparent;
+}
+
+
+
+@media (max-width: 768px) {
+    .drop > li > a {
+        background-color: black;
+    }
+    .navbar .drop > li > a:hover {
+        background-color: black;
+    }
+}
+
+.opaque-navbar > .container > li > a {
+    color: #777;
+}
+
+.parallax {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.parallax,
+.parallax h1,
+.parallax h2,
+.parallax h3,
+.parallax h4,
+.parallax h5,
+.parallax h6 {
+    color: #fff;
+}
+
+#carriere {
+    background-image: url(../img/carrier.jpg);
+    padding: 60px 0;
+}
+
+#about {
+    background-image: url(../img/acc.jpg);
+}
+
+section {
+    padding: 60px 0;
+}
+
+h1,
+h3 {
+    text-shadow: 0.5px 0.5px 0.5px rgba(150, 150, 150, 1);
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+    color: #fff;
+    background-color: black;
+}
+
+@font-face {
+    font-family: navFont;
+    src: url(../Mako-Regular.ttf);
+}
+
+.navbar-inverse {
+    background-color: transparent;
+    border: none;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    font-size: 120%;
+    color: white;
+    font-family: "navFont", Arial, Helvetica, sans-serif;
+}
+
+@media (max-width:768px) {
+    .navbar-inverse {
+        background-color: black;
+        border: none;
+    }
+    .opaque-navbar.semi-opaque {
+        background-color: rgba(0, 0, 0, 1);
+        height: 60px;
+        transition: background-color .5s ease 0s;
+    }
+}
+#map {
+            height: 400px;
+            width: 100%;
+        }
+
+.black-bg1{
+    background-color: black;
+    height: 40px;
+    width: 100%;
+        }
+.black-bg2{
+    background-color: black;
+    height: 20px;
+    width: 100%;
+        }
+.white-bg{
+    background-color: white;
+    height: 1px;
+    width: 100%;
+        }
+a{
+    text-decoration: none;
+    text-decoration-color: grey;
+}
+footer{
+    background-color: #0080db;
+    padding-top: 30px;
+    margin-top: -2px;
+}
+#line{
+    margin-top:50px;
+}
+.line{ 
+    display:block;
+    border:none;
+    color:#0080db;
+    height:1px;
+    background:white;
+    background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 350, from(#fff), to(#0080db));
+}
+i.fa.fa-twitter.footi ,i.fa.fa-facebook.footi, i.fa.fa-instagram.footi{
+    color: white;
+    font-size: 300%;
+    margin: 20px
+}
+.form-control{
+    width: 100%;
+}
+.row{
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+#overlay {
+    position: fixed; /* Sit on top of the page content */
+    display: none; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+}
+#sign{
+    margin: 30%;
+    margin-top:10%
+}
+@media (max-width: 768px) {
+    #sign{
+        margin: 20%;
+        margin-top:20%;
+    }
+    .nav>li>a>#signbig{
+    display: none;
+}
+}
+
+.fbutton{
+    margin-bottom: 2%;
+}
