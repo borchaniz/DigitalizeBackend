@@ -11,8 +11,15 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
         return $this->render('index.html.twig');
+    }
+    /**
+     * @Route("/form", name="form")
+     */
+    public function newUserAction()
+    {
+        return $this->render('form.html.twig');
     }
 }

@@ -3,6 +3,7 @@
     <meta charset="UTF-8">
     {% block title %}Digitalize{% endblock %}
     {% block stylesheet %}
+        <link rel="stylesheet" href="{{ asset('css/index.css') }}">
     {% endblock %}
     <link rel="shortcut icon" href="img/logo.png"/>
     <link rel="icon" type="image/x-icon" href="{{ asset('img/logo.png') }}" />
@@ -235,11 +236,13 @@
                     <input type="password" class="form-control" id="pass" placeholder="Mot De Passe">
                 </div>
                 <button type="submit" class="btn btn-default fbutton">Se Connecter</button>
-                <button class="btn btn-default fbutton">Créer un compte</button>
+                <a href="{{ path('form') }}" class="btn btn-default fbutton">Créer un compte</a>
                 <button class="btn btn-default fbutton" onclick="off()">Annuler</button>
             </form>
         </div>
     </center></div>
 </div>
-
+    <script src="js/map.js"></script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBceaaLI0ce4lQqdVTNRxe6xsqH1ymPkDw&callback=initMap"></script>
 {% endblock %}
