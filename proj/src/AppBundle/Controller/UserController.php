@@ -8,10 +8,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Users;
 use Symfony\Component\Validator\Constraints\Date;
+use \PDO;
 
 
 class UserController extends Controller{
-
+    /**
+     * @Route("/", name="homepage")
+     */
+    public function indexAction()
+    {
+        return $this->render('index.html.twig');
+    }
     /**
      * @Route("/addUser", name="addUser")
      **/
@@ -100,4 +107,25 @@ class UserController extends Controller{
         $em->flush();
         return $this->redirectToRoute('homepage');
     }
+    /**
+     * @Route("/login", name="login")
+     */
+
+    public function loginAction(Request $request){
+        $email= $request->get('email');
+        $query="SELECT * FROM users WHERE email='$email';";
+        $em=$this->getDoctrine()->getEntityManager();
+        $stmt = $em->getConnection()->prepare($query);
+        $stmt->execute();
+        $res=$stmt->fetchAll();
+        $s=sizeof($res);
+        return $this->render('form.html.twig',array('mode'=>'new',
+            'msg'=>$s,
+            'email'=>$request->get('email'),
+            'name'=>$request->get('name'),
+            'fname'=>$request->get('fname'),
+            'birth'=>$request->get('birth')
+        ));
+    }
 }
+
