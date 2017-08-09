@@ -37,7 +37,14 @@ class UserController extends Controller{
      **/
 
     public function editAction(){
-        return $this->render('form.html.twig');
+        return $this->render('form.html.twig',array(
+            'mode'=>'edit',
+            'msg'=>"Tapez votre Email SVP",
+            'email'=>$request->get('email'),
+            'name'=>$request->get('name'),
+            'fname'=>$request->get('fname'),
+            'birth'=>$request->get('birth')
+        ));
     }
     /**
      * @Route("/add", name="add")
@@ -118,14 +125,12 @@ class UserController extends Controller{
         $stmt = $em->getConnection()->prepare($query);
         $stmt->execute();
         $res=$stmt->fetchAll();
-        $s=sizeof($res);
-        return $this->render('form.html.twig',array('mode'=>'new',
-            'msg'=>$s,
-            'email'=>$request->get('email'),
-            'name'=>$request->get('name'),
-            'fname'=>$request->get('fname'),
-            'birth'=>$request->get('birth')
-        ));
+        if (sizeof($res)==0) return $this->render('Connection.html.twig', array('msg'=> 'Email does not exist'));
+        foreach ($res as $r)$s=$r['email'];
+        $password=sha1($request->get('password'));
+        foreach ($res as $r)$s=$r['password'];
+        if ($s!=$password) return $this->render('Connection.html.twig', array('msg'=> 'Wrong Password'));
+        return $this->render('Connection.html.twig', array('msg'=> 'Connection Successful'));
     }
 }
 
