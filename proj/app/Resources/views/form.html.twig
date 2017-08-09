@@ -38,24 +38,26 @@
             </div>
         </div>
     </div>
-    <center><form>
+    <center><form action="{{ path('add') }}" method="POST">
             <div class="form-group">
-                <input type="text" class="form-control" id="name" placeholder="Nom">
+                <input name="name" type="text" class="form-control" id="fame" placeholder="Nom" value="{{ name }}">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="lastN" placeholder="Prénom">
+                <input name="fname" type="text" class="form-control" id="nname" placeholder="Prénom" value="{{ fname }}">
             </div>
             <div class="form-group">
-                <input type="date" class="form-control" id="date" placeholder="Date de Naissance">
+                <input name="birth" type="date" class="form-control" id="birth" placeholder="Date de Naissance" value="{{ birth }}">
             </div>
         <div class="form-group">
-            <input type="email" class="form-control" id="uid" placeholder="E-mail">
+            <input name="email" type="email" class="form-control" id="email" placeholder="E-mail" value="{{ email }}">
         </div>
         <div class="form-group">
-            <input type="password" class="form-control" id="pass" placeholder="Mot De Passe">
+            <input name="password" type="password" class="form-control" id="password" placeholder="Mot De Passe">
         </div>
-        <a href="{{ path('form') }}" class="btn btn-default fbutton">Créer mon compte</a>
+
+        <button type="submit" class="btn btn-default fbutton">{{ mode=='new'? 'Créer mon Compte' : 'Modifier mon Compte'  }}</button>
     </form>
+        <center><h3>{{ msg }}</h3></center>
     </center>
 </body>
 </html>

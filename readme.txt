@@ -6,6 +6,6 @@ To test this project:
     php bin/console server:start
 5. Create database using following commands:
     php bin/console doctrine:databsase:create
-    bin/console doctrine:schema:update --force
+    php bin/console doctrine:schema:update --force
 6. Test the site by opening:
     localhost:8000
