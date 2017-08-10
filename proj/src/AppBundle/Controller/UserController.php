@@ -7,8 +7,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Users;
+use AppBundle\Login;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Validator\Constraints\Date;
-use \PDO;
 
 
 class UserController extends Controller{
@@ -22,11 +23,11 @@ class UserController extends Controller{
     /**
      * @Route("/addUser", name="addUser")
      **/
-    public function addAction(){
+    public function addAction(Request $request){
         return $this->render('form.html.twig',array(
             'mode'=>'new',
             'msg'=>'',
-            'email'=>null,
+            'email'=>$request->get('email'),
             'fname'=>null,
             'birth'=>null,
             'name'=>null
@@ -118,19 +119,43 @@ class UserController extends Controller{
      * @Route("/login", name="login")
      */
 
-    public function loginAction(Request $request){
-        $email= $request->get('email');
-        $query="SELECT * FROM users WHERE email='$email';";
-        $em=$this->getDoctrine()->getEntityManager();
-        $stmt = $em->getConnection()->prepare($query);
-        $stmt->execute();
-        $res=$stmt->fetchAll();
-        if (sizeof($res)==0) return $this->render('Connection.html.twig', array('msg'=> 'Email does not exist'));
-        foreach ($res as $r)$s=$r['email'];
-        $password=sha1($request->get('password'));
-        foreach ($res as $r)$s=$r['password'];
-        if ($s!=$password) return $this->render('Connection.html.twig', array('msg'=> 'Wrong Password'));
-        return $this->render('Connection.html.twig', array('msg'=> 'Connection Successful'));
+    public function loginAction(Request $request, Session $session){
+        if($session->has('login')){
+            $login=$session->get('login');
+            $email= $login->getEmail();
+            $password= $login->getPassword();
+            $query="SELECT * FROM users WHERE email='$email';";
+            $em=$this->getDoctrine()->getEntityManager();
+            $stmt = $em->getConnection()->prepare($query);
+            $stmt->execute();
+            $res=$stmt->fetchAll();
+            if (sizeof($res)==0) return $this->render('Connection.html.twig', array('msg'=> 'Email does not exist'));
+            foreach ($res as $r)$s=$r['email'];
+            $password=sha1($request->get('password'));
+            foreach ($res as $r)$s=$r['password'];
+            if ($s!=$password) return $this->render('Connection.html.twig', array('msg'=> 'Connection Successful'));
+            return $this->render('Connection.html.twig', array('msg'=> 'Connection Successful'));
+        }else if ($request->getMethod()=='POST'){
+            $session->clear();
+            $email= $request->get('email');
+            $query="SELECT * FROM users WHERE email='$email';";
+            $em=$this->getDoctrine()->getEntityManager();
+            $stmt = $em->getConnection()->prepare($query);
+            $stmt->execute();
+            $res=$stmt->fetchAll();
+            if (sizeof($res)==0) return $this->render('Connection.html.twig', array('msg'=> 'Email does not exist'));
+            foreach ($res as $r)$s=$r['email'];
+            $password=sha1($request->get('password'));
+            foreach ($res as $r)$s=$r['password'];
+            if ($s!=$password) return $this->render('Connection.html.twig', array('msg'=> 'Wrong Password'));
+            if ($request->get('remember')=='true'){
+                $login=new Login();
+                $login->setEmail($request->get('email'));
+                $login->setPassword($password);
+                $session->set('login', $login);
+            }
+            return $this->render('Connection.html.twig', array('msg'=> 'Connection Successful'));
+        }else return $this->render('Connection.html.twig', array('msg'=> 'not Connected'));
     }
 }
 

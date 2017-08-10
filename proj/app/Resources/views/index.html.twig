@@ -235,9 +235,10 @@
                 <div class="form-group">
                     <input type="password" class="form-control" id="pass" placeholder="Mot De Passe" name="password">
                 </div>
+                <h3 style="margin-top: -10px; color: white;"><input type="checkbox" value="true" name="remember"> Se rappeler de moi</h3>
                 <button type="submit" class="btn btn-default fbutton">Se Connecter</button>
                 <a href="{{ path('addUser') }}" class="btn btn-default fbutton">Créer un compte</a>
-                <button class="btn btn-default fbutton" onclick="off()">Annuler</button>
+                <button class="btn btn-default fbutton" onclick="off()" type="reset">Annuler</button>
             </form>
         </div>
     </center></div>
