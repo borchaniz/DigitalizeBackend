@@ -11,3 +11,6 @@ $(window).scroll(function () {
 
 });
 
+setTimeout(function() {
+    document.getElementById("error").style.display="none";
+}, 5000);

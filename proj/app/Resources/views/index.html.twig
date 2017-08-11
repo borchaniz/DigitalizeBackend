@@ -258,7 +258,7 @@
                 <div class="form-group">
                     <input type="password" class="form-control" id="pass" placeholder="Mot De Passe" name="password">
                 </div>
-                <h3 style="margin-top: -10px; color: white;"><input type="checkbox" value="true" name="remember"> Se rappeler de moi</h3>
+                <h4 style="margin-top: -10px; color: white;"><input type="checkbox" value="true" name="remember"> Se rappeler de moi</h4>
                 <button type="submit" class="btn btn-default fbutton">Se Connecter</button>
                 <a href="{{ path('addUser') }}" class="btn btn-default fbutton">Créer un compte</a>
                 <button class="btn btn-default fbutton" onclick="off()" type="reset">Annuler</button>
@@ -266,7 +266,12 @@
         </div>
     </center></div>
 </div>
-    <h3>{{ msg }}</h3>
+    {% if msg=='email' or msg=='password' %}
+        <div class="alert alert-warning" style="max-width: 300px; background-color: black; position: fixed; right: 60px; bottom: 20px; color: white;" id="error">
+            {{ msg=='email'? "Il n'existe aucun compte lié à cet email" : "Verifier votre mot de passe!" }}
+        </div>
+    {% endif %}
+
     <script src="js/map.js"></script>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBceaaLI0ce4lQqdVTNRxe6xsqH1ymPkDw&callback=initMap"></script>
