@@ -38,7 +38,7 @@
             </div>
         </div>
     </div>
-    <center><form action="{{ path('add') }}" method="POST">
+    <center><form action="{{mode=='new'? path('add') : path ('edit') }}" method="POST">
             <div class="form-group">
                 <input name="name" type="text" class="form-control" id="fname" placeholder="Nom" value="{{ name }}">
             </div>
@@ -54,7 +54,11 @@
         <div class="form-group">
             <input name="password" type="password" class="form-control" id="password" placeholder="Mot De Passe">
         </div>
-
+        {% if mode=='edit' %}
+            <div class="form-group">
+                <input name="newpassword" type="password" class="form-control" id="newpassword" placeholder="Nouveau Mot De Passe">
+            </div>
+            {% endif %}
         <button type="submit" class="btn btn-default fbutton">{{ mode=='new'? 'Créer mon Compte' : 'Modifier mon Compte'  }}</button>
     </form>
         <center><h3>{{ msg }}</h3></center>

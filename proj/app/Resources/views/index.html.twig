@@ -24,7 +24,7 @@
                     <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 60px;">
                         <li><a>Bonjour, {{ name }} {{ fname }}</a></li>
                         <li><a>{{ email }}</a></li>
-                        <li><form action="{{ path('logout') }}"><button class=type="submit" style="border: none;background: none; padding-left: 20px;padding-top: 3px;">Se Deconnecter</button></form></li>
+                        <li><form action="{{ path('logout') }}" method="POST"><button class=type="submit" style="border: none;background: none; padding-left: 20px;padding-top: 3px;">Se Deconnecter</button></form></li>
 
                     </ul>
                 </div>
@@ -48,7 +48,8 @@
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li><a>Bonjour, {{ name }} {{ fname }}</a></li>
                         <li><a>{{ email }}</a></li>
-                        <li><form action="{{ path('logout') }}"><button class=type="submit" style="border: none;background: none; padding-left: 20px;padding-top: 3px;">Se Deconnecter</button></form></li>
+                        <li><form action="{{ path('editUser') }}" method="post"><button class=type="submit" style="border: none;background: none; padding-left: 20px;padding-top: 3px;">Modifier mon Compte</button></form></li>
+                        <li><form action="{{ path('logout') }}" method="post"><button class=type="submit" style="border: none;background: none; padding-left: 20px;padding-top: 3px;">Se Deconnecter</button></form></li>
                     </ul>
                     </li>
                 {% else %}
@@ -266,10 +267,22 @@
         </div>
     </center></div>
 </div>
-    {% if msg=='email' or msg=='password' %}
+    {% if msg=='email'%}
         <div class="alert alert-warning" style="max-width: 300px; background-color: black; position: fixed; right: 60px; bottom: 20px; color: white;" id="error">
-            {{ msg=='email'? "Il n'existe aucun compte lié à cet email" : "Verifier votre mot de passe!" }}
+            Il n'existe aucun compte lié à cet email
         </div>
+    {%elseif msg=='email'%}
+    <div class="alert alert-warning" style="max-width: 300px; background-color: black; position: fixed; right: 60px; bottom: 20px; color: white;" id="error">
+        Verifier votre mot de passe!
+    </div>
+    {% elseif msg=='disconnected'%}
+    <div class="alert alert-warning" style="max-width: 300px; background-color: black; position: fixed; right: 60px; bottom: 20px; color: white;" id="error">
+        Déconnecté!
+    </div>
+    {% elseif msg=='edited'%}
+    <div class="alert alert-warning" style="max-width: 300px; background-color: black; position: fixed; right: 60px; bottom: 20px; color: white;" id="error">
+        Votre Compte a été modifié avec Succès! Connectez vous de nouveau!
+    </div>
     {% endif %}
 
     <script src="js/map.js"></script>

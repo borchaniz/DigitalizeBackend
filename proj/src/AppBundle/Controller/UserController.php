@@ -14,10 +14,6 @@ use Symfony\Component\Validator\Constraints\Date;
 
 class UserController extends Controller{
     /**
-     * @Route("/", name="homepage")
-     */
-
-    /**
      * @Route("/addUser", name="addUser")
      **/
     public function addAction(Request $request){
@@ -33,16 +29,35 @@ class UserController extends Controller{
     /**
      * @Route("/editUser", name="editUser")
      **/
-
-    public function editAction(){
-        return $this->render('form.html.twig',array(
-            'mode'=>'edit',
-            'msg'=>"Tapez votre Email SVP",
-            'email'=>$request->get('email'),
-            'name'=>$request->get('name'),
-            'fname'=>$request->get('fname'),
-            'birth'=>$request->get('birth')
-        ));
+    public function editUserAction(Session $session){
+        if($session->has('login')){
+            $login=$session->get('login');
+            $email= $login->getEmail();
+            $password= $login->getPassword();
+            $query="SELECT * FROM users WHERE email='$email';";
+            $em=$this->getDoctrine()->getEntityManager();
+            $stmt = $em->getConnection()->prepare($query);
+            $stmt->execute();
+            $res=$stmt->fetchAll();
+            if (sizeof($res)==0)  return $this->render('Connection.html.twig',array('msg'=>"Vous devez etre connectés pour modifier votre Compte"));
+            foreach ($res as $r)$s=$r['password'];
+            if ($s!=$password)  return $this->render('Connection.html.twig',array('msg'=>"Vous devez etre connectés pour modifier votre Compte"));
+            foreach ($res as $r){
+                $name= $r['name'];
+                $fname= $r['fname'];
+                $email= $r['email'];
+                $birth = $r['birth'];
+            }
+            return $this->render('form.html.twig', array(
+                'mode'=>'edit',
+                'msg'=> null,
+                'name'=>$name,
+                'fname'=>$fname,
+                'email'=>$email,
+                'birth'=>$birth
+            ));
+        }
+        return $this->render('Connection.html.twig',array('msg'=>"Vous devez etre connectés pour modifier votre Compte"));
     }
     /**
      * @Route("/add", name="add")
@@ -113,9 +128,65 @@ class UserController extends Controller{
         return $this->redirectToRoute('homepage');
     }
     /**
+     * @Route("/edit", name="edit")
+     **/
+    public function editAction(Request $request, Session $session){
+        $newemail=$request->get('email');
+        $login=$session->get('login');
+        $oldemail=$login->getEmail();
+        $query="SELECT * FROM users WHERE email='$newemail';";
+        $em=$this->getDoctrine()->getEntityManager();
+        $stmt = $em->getConnection()->prepare($query);
+        $stmt->execute();
+        $res=$stmt->fetchAll();
+        if ($newemail==null)$newemail=$oldemail;
+        else $newemail=$request->get('email');
+        if ($newemail!=$oldemail && sizeof($res)>0) return $this->render('form.html.twig',array('mode'=>'edit',
+            'msg'=>"Cet email est déja associé à un autre compte",
+            'email'=>'',
+            'name'=>$request->get('name'),
+            'fname'=>$request->get('fname'),
+            'birth'=>$request->get('birth')
+        ));
+        $user= new Users();
+        $user->setEmail($newemail);
+        $str= $request->get('password');
+        if ($str==null)  $password=$login->getPassword();
+        else if ($request->get('newpassword')==null){
+            return $this->render('form.html.twig',array('mode'=>'edit',
+                'msg'=>"Tapez votre nouveau Mot de Passe!",
+                'email'=>$request->get('email'),
+                'name'=>$request->get('name'),
+                'fname'=>$request->get('fname'),
+                'birth'=>$request->get('birth')
+            ));
+        }else $password=sha1($request->get('newpassword'));
+        $user->setPassword($password);
+        $name=$request->get('name');
+        if ($name==null){
+            foreach ($res as $r)$name=$r['name'];
+        }
+        $user->setName($name);
+        $fname=$request->get('fname');
+        if ($fname==null){
+            foreach ($res as $r)$fname=$r['fname'];
+        }
+        $user->setFname($fname);
+        $birth=$request->get('birth');
+        if ($birth==null){
+            foreach ($res as $r)$birth=$r['birth'];
+        }
+        $user->setBirth($birth);
+        $query="UPDATE users SET email='$newemail', password='$password', name='$name', fname='$fname', birth='$birth' WHERE email='$oldemail' ;";
+        $em=$this->getDoctrine()->getEntityManager();
+        $stmt = $em->getConnection()->prepare($query);
+        $stmt->execute();
+        $session->clear();
+        return $this->render('index.html.twig',array('msg'=>'edited'));
+    }
+    /**
      * @Route("/", name="homepage")
      */
-
     public function loginAction(Request $request, Session $session){
         if($session->has('login')){
             $login=$session->get('login');
@@ -126,13 +197,7 @@ class UserController extends Controller{
             $stmt = $em->getConnection()->prepare($query);
             $stmt->execute();
             $res=$stmt->fetchAll();
-            if (sizeof($res)==0) return $this->render('form.html.twig',array('mode'=>'new',
-                'msg'=>"Tapez votre Date de naissance SVP",
-                'email'=>$request->get('email'),
-                'name'=>$request->get('name'),
-                'fname'=>$request->get('fname'),
-                'birth'=>$request->get('birth')
-            ));
+            if (sizeof($res)==0) return $this->render('index.html.twig', array('msg'=> null));
             foreach ($res as $r)$s=$r['password'];
             if ($s!=$password) return $this->render('index.html.twig', array('msg'=> 'password'));
             foreach ($res as $r){
@@ -181,10 +246,9 @@ class UserController extends Controller{
     /**
      * @Route("/logout", name="logout")
      **/
-
     public function logoutAction(Request $request,Session $session){
         $session->clear();
-        return $this->redirectToRoute("homepage");
+        return $this->render("index.html.twig",array('msg'=>'disconnected'));
     }
 }
 
