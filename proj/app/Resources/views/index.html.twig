@@ -17,9 +17,22 @@
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navMain">
                 <span class="glyphicon glyphicon-menu-hamburger" style="color:white;" ></span>
             </button>
-            <button type="button" class="navbar-toggle" onclick="on()">
-                <i class="fa fa-user" aria-hidden="true" style="color:white;"></i>
-            </button>
+            {% if msg=='connected' %}
+                <div class="dropdown">
+                    <button class="navbar-toggle" type="button" data-toggle="dropdown">
+                        <i class="fa fa-user" aria-hidden="true" style="color:white;"></i></button>
+                    <ul class="dropdown-menu dropdown-menu-right" style="margin-top: 60px;">
+                        <li><a>Bonjour, {{ name }} {{ fname }}</a></li>
+                        <li><a>{{ email }}</a></li>
+                        <li><form action="{{ path('logout') }}"><button class=type="submit" style="border: none;background: none; padding-left: 20px;padding-top: 3px;">Se Deconnecter</button></form></li>
+
+                    </ul>
+                </div>
+            {% else %}
+                <button type="button" class="navbar-toggle" onclick="on()">
+                    <i class="fa fa-user" aria-hidden="true" style="color:white;"></i>
+                </button>
+            {% endif %}
             <a class="navbar-brand" href="#"><img src="img/digitalize international1.png" height="200%"
                                                   style="margin-top:0px; position:relative; top:-30%"></a>
         </div>
@@ -30,7 +43,17 @@
                 <li><a href="#services">Nos Services</a></li>
                 <li><a href="#carriere">Carrière</a></li>
                 <li><a href="#contact">Contact</a></li>
+                {% if msg=='connected' %}
+                    <li class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown"><i id="signbig" class="fa fa-user" aria-hidden="true"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a>Bonjour, {{ name }} {{ fname }}</a></li>
+                        <li><a>{{ email }}</a></li>
+                        <li><form action="{{ path('logout') }}"><button class=type="submit" style="border: none;background: none; padding-left: 20px;padding-top: 3px;">Se Deconnecter</button></form></li>
+                    </ul>
+                    </li>
+                {% else %}
                 <li ><a onclick="on()"><i id="signbig" class="fa fa-user" aria-hidden="true"></i></a></li>
+                {% endif %}
             </ul>
         </div>
 
@@ -227,7 +250,7 @@
 <div id="overlay">
     <div><center>
         <div id="sign">
-            <form action="{{ path('login') }}" method="POST">
+            <form action="{{ path('homepage') }}" method="POST">
                 <i class="fa fa-user" aria-hidden="true" style="color: white; font-size: 1000%; margin-bottom: 10%"></i>
                 <div class="form-group">
                     <input name="email" type="email" class="form-control" id="email" placeholder="e-mail" >
@@ -243,6 +266,7 @@
         </div>
     </center></div>
 </div>
+    <h3>{{ msg }}</h3>
     <script src="js/map.js"></script>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBceaaLI0ce4lQqdVTNRxe6xsqH1ymPkDw&callback=initMap"></script>

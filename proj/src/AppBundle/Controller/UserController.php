@@ -16,10 +16,7 @@ class UserController extends Controller{
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction()
-    {
-        return $this->render('index.html.twig');
-    }
+
     /**
      * @Route("/addUser", name="addUser")
      **/
@@ -116,7 +113,7 @@ class UserController extends Controller{
         return $this->redirectToRoute('homepage');
     }
     /**
-     * @Route("/login", name="login")
+     * @Route("/", name="homepage")
      */
 
     public function loginAction(Request $request, Session $session){
@@ -129,33 +126,65 @@ class UserController extends Controller{
             $stmt = $em->getConnection()->prepare($query);
             $stmt->execute();
             $res=$stmt->fetchAll();
-            if (sizeof($res)==0) return $this->render('Connection.html.twig', array('msg'=> 'Email does not exist'));
-            foreach ($res as $r)$s=$r['email'];
-            $password=sha1($request->get('password'));
+            if (sizeof($res)==0) return $this->render('form.html.twig',array('mode'=>'new',
+                'msg'=>"Tapez votre Date de naissance SVP",
+                'email'=>$request->get('email'),
+                'name'=>$request->get('name'),
+                'fname'=>$request->get('fname'),
+                'birth'=>$request->get('birth')
+            ));
             foreach ($res as $r)$s=$r['password'];
-            if ($s!=$password) return $this->render('Connection.html.twig', array('msg'=> 'Connection Successful'));
-            return $this->render('Connection.html.twig', array('msg'=> 'Connection Successful'));
+            if ($s!=$password) return $this->render('index.html.twig', array('msg'=> 'password'));
+            foreach ($res as $r){
+                $name= $r['name'];
+                $fname= $r['fname'];
+                $email= $r['email'];
+            }
+            return $this->render('index.html.twig', array(
+                'msg'=> 'connected',
+                'name'=>$name,
+                'fname'=>$fname,
+                'email'=>$email
+            ));
         }else if ($request->getMethod()=='POST'){
-            $session->clear();
+
             $email= $request->get('email');
             $query="SELECT * FROM users WHERE email='$email';";
             $em=$this->getDoctrine()->getEntityManager();
             $stmt = $em->getConnection()->prepare($query);
             $stmt->execute();
             $res=$stmt->fetchAll();
-            if (sizeof($res)==0) return $this->render('Connection.html.twig', array('msg'=> 'Email does not exist'));
+            if (sizeof($res)==0) return $this->render('index.html.twig', array('msg'=> 'email'));
             foreach ($res as $r)$s=$r['email'];
             $password=sha1($request->get('password'));
             foreach ($res as $r)$s=$r['password'];
-            if ($s!=$password) return $this->render('Connection.html.twig', array('msg'=> 'Wrong Password'));
+            if ($s!=$password) return $this->render('index.html.twig', array('msg'=> 'password'));
             if ($request->get('remember')=='true'){
                 $login=new Login();
                 $login->setEmail($request->get('email'));
                 $login->setPassword($password);
                 $session->set('login', $login);
             }
-            return $this->render('Connection.html.twig', array('msg'=> 'Connection Successful'));
-        }else return $this->render('Connection.html.twig', array('msg'=> 'not Connected'));
+            foreach ($res as $r){
+                $name= $r['name'];
+                $fname= $r['fname'];
+                $email= $r['email'];
+            }
+            return $this->render('index.html.twig', array(
+                'msg'=> 'connected',
+                'name'=>$name,
+                'fname'=>$fname,
+                'email'=>$email
+            ));
+        }else return $this->render('index.html.twig', array('msg'=> null));
+    }
+    /**
+     * @Route("/logout", name="logout")
+     **/
+
+    public function logoutAction(Request $request,Session $session){
+        $session->clear();
+        return $this->redirectToRoute("homepage");
     }
 }
 
