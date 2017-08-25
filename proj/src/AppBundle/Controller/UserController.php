@@ -250,5 +250,50 @@ class UserController extends Controller{
         $session->clear();
         return $this->render("index.html.twig",array('msg'=>'disconnected'));
     }
+    /**
+     * @Route("/Recruit", name="Recruit")
+     **/
+    public function recruitAction(Request $request,Session $session){
+        if ($session->has('login')){
+            $email=$session->get('login')->getEmail();
+            $query="SELECT * FROM users WHERE email='$email';";
+            $em=$this->getDoctrine()->getEntityManager();
+            $stmt = $em->getConnection()->prepare($query);
+            $stmt->execute();
+            $res=$stmt->fetchAll();
+            foreach ($res as $r){
+                $name=$r['name'];
+                $fname=$r['fname'];
+                $birth=$r['birth'];
+            }
+            return $this->render("Recruit.html.twig",array(
+                'email'=>$email,
+                'name'=>$name,
+                'fname'=>$fname,
+                'birth'=>$birth,
+                'cv'=>null,
+                'phone'=>null
+            ));
+
+
+        }
+        else return $this->render("Recruit.html.twig",array(
+            'email'=>null,
+            'name'=>null,
+            'fname'=>null,
+            'birth'=>null,
+            'cv'=>null,
+            'phone'=>null
+        ));
+    }
+
+    /**
+     * @Route("/mail", name="mail")
+     **/
+    public function mailAction(Request $request){
+        mail("nadhem.m.2016@ieee.org",$request->get('sub'),+$request->get('mail'));
+        return $this->render('index.html.twig', array('msg'=> "mail"));
+    }
+
 }
 

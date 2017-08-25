@@ -1,0 +1,64 @@
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+    <style>
+        body{
+            background-size: 100%;
+            background-image: url('../../../web/img/formBG.jpg');
+            margin-top: 196px;
+            background-repeat: no-repeat;
+        }
+        form{
+
+            align: center;
+            width:40%;
+            padding: 20px;
+            -webkit-box-shadow: 1px 2px 10px -2px rgba(0,0,0,0.75);
+            -moz-box-shadow: 1px 2px 10px -2px rgba(0,0,0,0.75);
+            box-shadow: 1px 2px 10px -2px rgba(0,0,0,0.75);
+        }
+
+        @media (max-width: 768px) {
+            form{
+                width:70%
+            }
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top opaque-navbar" style="background-color: black;: ">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"><img src="img/digitalize international1.png" height="200%"
+                                                      style="margin-top:0px; position:relative; top:-30%"></a>
+            </div>
+        </div>
+    </div>
+    <center><form action="" method="POST">
+            <div class="form-group">
+                <input name="name" type="text" class="form-control" id="fname" placeholder="Nom" value="{{ name }}">
+            </div>
+            <div class="form-group">
+                <input name="fname" type="text" class="form-control" id="name" placeholder="Prénom" value="{{ fname }}">
+            </div>
+            <div class="form-group">
+                <input name="phone" type="text" class="form-control" id="phone" placeholder="Numéro de tel: +xxx xx xxx xxx" value="{{ phone }}">
+            </div>
+            <div class="form-group">
+                <input name="birth" type="date" class="form-control" id="birth" placeholder="Date de Naissance" value="{{ birth }}">
+            </div>
+        <div class="form-group">
+            <input name="email" type="email" class="form-control" id="email" placeholder="E-mail" value="{{ email }}">
+        </div>
+        <div class="form-group">
+            <input name="cv" type="link" class="form-control" id="cv" placeholder="inserer le lien de votre curriculum vitae">
+        </div>
+        <button type="submit" class="btn btn-default fbutton">Soumettre ma Condidature</button>
+    </form>
+    </center>
+</body>
+</html>

@@ -212,8 +212,8 @@
                 <center><i class="fa fa-globe" aria-hidden="true" style="font-size:600%; color:#0080db;"></i></center>
                 <center>
                     <h3>Pour assurer sa splendeur dans toutes les régions, Digitalize travaille sur l'implémentation de
-                        ses bureaux dans divers pays. Nos clients occupent les quatres coins du monde et nous sommes
-                        ravis d'accueillir aussi bien les clients étrangers que les clients de Tunis.</h3>
+                        ses bureaux dans divers pays. Nos clients occupent les quatre coins du monde et nous sommes
+                        ravis d'accueillir aussi bien les clients étrangers que les clients tunisiens.</h3>
                 </center>
 
             </div>
@@ -227,9 +227,9 @@
         <div class="col-sm-4 col-xs-12"></div>
         <div class="col-sm-4 col-xs-12">
 
-            <form>
+            <form action="{{ path('mail') }}" >
                 <div class="form-group">
-                    <input type="text" class="form-control" id="sub" placeholder="sujet">
+                    <input type="text" class="form-control" id="sub" placeholder="Sujet">
                 </div>
                 <div class="form-group">
                     <textarea rows="4" class="form-control" id="mail" placeholder="Mail"></textarea>
@@ -282,6 +282,10 @@
     {% elseif msg=='edited'%}
     <div class="alert alert-warning" style="max-width: 300px; background-color: black; position: fixed; right: 60px; bottom: 20px; color: white;" id="error">
         Votre Compte a été modifié avec Succès! Connectez vous de nouveau!
+    </div>
+    {% elseif msg=='mail'%}
+    <div class="alert alert-warning" style="max-width: 300px; background-color: black; position: fixed; right: 60px; bottom: 20px; color: white;" id="error">
+        Votre mail a été envoyé!
     </div>
     {% endif %}
 
