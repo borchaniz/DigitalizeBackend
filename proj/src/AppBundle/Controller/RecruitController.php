@@ -63,6 +63,16 @@ class RecruitController extends Controller
         $em->flush();
         return $this->redirectToRoute('homepage');
     }
-
+    /**
+     * @Route("/RecruitList", name="RecruitList")
+     **/
+    public function recruitList(Request $request,Session $session){
+        $query="SELECT * FROM recruit;";
+        $em=$this->getDoctrine()->getEntityManager();
+        $stmt = $em->getConnection()->prepare($query);
+        $stmt->execute();
+        $res=$stmt->fetchAll();
+        return $this->render('RecruitList.html.twig',array ('data'=>$res));
+    }
 
 }
