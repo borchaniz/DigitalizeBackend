@@ -224,12 +224,10 @@ class UserController extends Controller{
             $password=sha1($request->get('password'));
             foreach ($res as $r)$s=$r['password'];
             if ($s!=$password) return $this->render('index.html.twig', array('msg'=> 'password'));
-            if ($request->get('remember')=='true'){
-                $login=new Login();
-                $login->setEmail($request->get('email'));
-                $login->setPassword($password);
-                $session->set('login', $login);
-            }
+            $login=new Login();
+            $login->setEmail($request->get('email'));
+            $login->setPassword($password);
+            $session->set('login', $login);
             foreach ($res as $r){
                 $name= $r['name'];
                 $fname= $r['fname'];
@@ -251,48 +249,32 @@ class UserController extends Controller{
         return $this->render("index.html.twig",array('msg'=>'disconnected'));
     }
     /**
-     * @Route("/Recruit", name="Recruit")
+     * @Route("/mail", name="mail")
      **/
-    public function recruitAction(Request $request,Session $session){
-        if ($session->has('login')){
-            $email=$session->get('login')->getEmail();
+    public function mailAction(Request $request,Session $session){
+        if($session->has('login')){
+        mail("nadhem.m.2016@ieee.org",$request->get('sub'),$request->get('mail')."\n sent from: ".$session->get('login')->getEmail());
+            $login=$session->get('login');
+            $email= $login->getEmail();
             $query="SELECT * FROM users WHERE email='$email';";
             $em=$this->getDoctrine()->getEntityManager();
             $stmt = $em->getConnection()->prepare($query);
             $stmt->execute();
             $res=$stmt->fetchAll();
             foreach ($res as $r){
-                $name=$r['name'];
-                $fname=$r['fname'];
-                $birth=$r['birth'];
+                $name= $r['name'];
+                $fname= $r['fname'];
+                $email= $r['email'];
             }
-            return $this->render("Recruit.html.twig",array(
-                'email'=>$email,
-                'name'=>$name,
-                'fname'=>$fname,
-                'birth'=>$birth,
-                'cv'=>null,
-                'phone'=>null
-            ));
-
-
-        }
-        else return $this->render("Recruit.html.twig",array(
-            'email'=>null,
-            'name'=>null,
-            'fname'=>null,
-            'birth'=>null,
-            'cv'=>null,
-            'phone'=>null
+        return $this->render('index.html.twig', array(
+            'msg'=> 'mail',
+            'name'=>$name,
+            'fname'=>$fname,
+            'email'=>$email
         ));
-    }
-
-    /**
-     * @Route("/mail", name="mail")
-     **/
-    public function mailAction(Request $request){
-        mail("nadhem.m.2016@ieee.org",$request->get('sub'),+$request->get('mail'));
-        return $this->render('index.html.twig', array('msg'=> "mail"));
+    }else{
+            return $this->render('index.html.twig', array('msg'=> "notsent"));
+        }
     }
 
 }

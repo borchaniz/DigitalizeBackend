@@ -6,7 +6,7 @@
     <style>
         body{
             background-size: 100%;
-            background-image: url('../../../web/img/formBG.jpg');
+            background-image: url('img/formBG.jpg');
             margin-top: 196px;
             background-repeat: no-repeat;
         }
@@ -33,29 +33,29 @@
     <div class="navbar navbar-inverse navbar-fixed-top opaque-navbar" style="background-color: black;: ">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#"><img src="img/digitalize international1.png" height="200%"
+                <a class="navbar-brand" href="#"><img src="../../img/digitalize international1.png" height="200%"
                                                       style="margin-top:0px; position:relative; top:-30%"></a>
             </div>
         </div>
     </div>
-    <center><form action="" method="POST">
+    <center><form action="{{ path('RecruitConfirm') }}" method="POST">
             <div class="form-group">
-                <input name="name" type="text" class="form-control" id="fname" placeholder="Nom" value="{{ name }}">
+                <input name="name" type="text" class="form-control" id="fname" placeholder="Nom" value="{{ name }}" required>
             </div>
             <div class="form-group">
-                <input name="fname" type="text" class="form-control" id="name" placeholder="Prénom" value="{{ fname }}">
+                <input name="fname" type="text" class="form-control" id="name" placeholder="Prénom" value="{{ fname }}" required>
             </div>
             <div class="form-group">
-                <input name="phone" type="text" class="form-control" id="phone" placeholder="Numéro de tel: +xxx xx xxx xxx" value="{{ phone }}">
+                <input name="phone" type="text" class="form-control" id="phone" placeholder="Numéro de tel: +xxx xx xxx xxx" value="{{ phone }}" required>
             </div>
             <div class="form-group">
-                <input name="birth" type="date" class="form-control" id="birth" placeholder="Date de Naissance" value="{{ birth }}">
+                <input name="birth" type="date" class="form-control" id="birth" placeholder="Date de Naissance" value="{{ birth }}" required>
             </div>
         <div class="form-group">
-            <input name="email" type="email" class="form-control" id="email" placeholder="E-mail" value="{{ email }}">
+            <input name="email" type="email" class="form-control" id="email" placeholder="E-mail" value="{{ email }}" required>
         </div>
         <div class="form-group">
-            <input name="cv" type="link" class="form-control" id="cv" placeholder="inserer le lien de votre curriculum vitae">
+            <input name="cv" type="link" class="form-control" id="cv" placeholder="inserer le lien de votre curriculum vitae" required>
         </div>
         <button type="submit" class="btn btn-default fbutton">Soumettre ma Condidature</button>
     </form>
