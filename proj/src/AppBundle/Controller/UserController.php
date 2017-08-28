@@ -192,6 +192,9 @@ class UserController extends Controller{
             $login=$session->get('login');
             $email= $login->getEmail();
             $password= $login->getPassword();
+            if ($login->getEmail()=='digitalize@admin.com' && $login->getPassword()=='7d5c37b2b576b733eeefcbfa4d6498c4d4623d21'){
+                return $this->redirectToRoute("admin");
+            }
             $query="SELECT * FROM users WHERE email='$email';";
             $em=$this->getDoctrine()->getEntityManager();
             $stmt = $em->getConnection()->prepare($query);
@@ -212,10 +215,13 @@ class UserController extends Controller{
                 'email'=>$email
             ));
         }else if ($request->getMethod()=='POST'){
-            if ($request->get('email')=='digitalize@admin.com' && sha1($request->get('password'))=='7d5c37b2b576b733eeefcbfa4d6498c4d4623d21')
-                return $this->redirectToRoute("RecruitList");
-            if ($request->get('email')=='admin@digitalize.com' && sha1($request->get('password'))=='7d5c37b2b576b733eeefcbfa4d6498c4d4623d21')
-                return $this->redirectToRoute("RDVList");
+            if ($request->get('email')=='digitalize@admin.com' && sha1($request->get('password'))=='7d5c37b2b576b733eeefcbfa4d6498c4d4623d21'){
+                $login=new Login();
+                $login->setEmail($request->get('email'));
+                $login->setPassword(sha1($request->get('password')));
+                $session->set('login', $login);
+                return $this->redirectToRoute("admin");
+            }
             $email= $request->get('email');
             $query="SELECT * FROM users WHERE email='$email';";
             $em=$this->getDoctrine()->getEntityManager();

@@ -61,18 +61,43 @@ class RecruitController extends Controller
         $user->setCv($request->get('cv'));
         $em->persist($user);
         $em->flush();
-        return $this->redirectToRoute('homepage');
+        $email=$session->get('login')->getEmail();
+        $query="SELECT * FROM users WHERE email='$email';";
+        $em=$this->getDoctrine()->getEntityManager();
+        $stmt = $em->getConnection()->prepare($query);
+        $stmt->execute();
+        $res=$stmt->fetchAll();
+        foreach ($res as $r){
+            $name=$r['name'];
+            $fname=$r['fname'];
+            $birth=$r['birth'];
+        }
+        return $this->render('index.html.twig', array(
+            'msg'=> 'rec',
+            'name'=>$name,
+            'fname'=>$fname,
+            'email'=>$email
+        ));
     }
     /**
      * @Route("/RecruitList", name="RecruitList")
      **/
     public function recruitList(Request $request,Session $session){
-        $query="SELECT * FROM recruit;";
-        $em=$this->getDoctrine()->getEntityManager();
-        $stmt = $em->getConnection()->prepare($query);
-        $stmt->execute();
-        $res=$stmt->fetchAll();
-        return $this->render('RecruitList.html.twig',array ('data'=>$res));
+        if($session->has('login')){
+            $login=$session->get('login');
+            $email= $login->getEmail();
+            $password= $login->getPassword();
+            if ($login->getEmail()=='digitalize@admin.com' && $login->getPassword()=='7d5c37b2b576b733eeefcbfa4d6498c4d4623d21'){
+                $query="SELECT * FROM recruit;";
+                $em=$this->getDoctrine()->getEntityManager();
+                $stmt = $em->getConnection()->prepare($query);
+                $stmt->execute();
+                $res=$stmt->fetchAll();
+                return $this->render('RecruitList.html.twig',array ('data'=>$res));
+            }return $this->render('Admin.html.twig',array('msg'=>'not connected'));
+        }return $this->render('Admin.html.twig',array('msg'=>'not connected'));
     }
+
+
 
 }

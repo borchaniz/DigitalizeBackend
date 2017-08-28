@@ -17,7 +17,7 @@
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navMain">
                 <span class="glyphicon glyphicon-menu-hamburger" style="color:white;" ></span>
             </button>
-            {% if msg=='connected' or msg=='mail'%}
+            {% if msg=='connected' or msg=='mail' or msg=='rdv' or msg=='notsent' or msg=='rec'%}
                 <div class="dropdown">
                     <button class="navbar-toggle" type="button" data-toggle="dropdown">
                         <i class="fa fa-user" aria-hidden="true" style="color:white;"></i></button>
@@ -43,7 +43,7 @@
                 <li><a href="#about">A propos</a></li>
                 <li><a href="#services">Nos Services</a></li>
                 <li><a href="#carriere">Carrière</a></li>
-                {% if msg=='connected' or msg=='mail' %}
+                {% if msg=='connected' or msg=='mail' or msg=='notsent' or msg=='rdv' or msg=='rec' %}
                 <li><a href="/RDV">Prendre un RDV</a></li>
                 <li><a href="/Recruit">join the team</a></li>
                 {%  else %}
@@ -51,7 +51,7 @@
                 <li><a onclick="on()">join the team</a></li>
                 {%  endif %}
                 <li><a href="#contact">Contact</a></li>
-                {% if msg=='connected' or msg=='mail' %}
+                {% if msg=='connected' or msg=='mail' or msg=='notsent' or msg=='rdv' or msg=='rec'  %}
                     <li class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown"><i id="signbig" class="fa fa-user" aria-hidden="true"></i></a>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li><a>Bonjour, {{ name }} {{ fname }}</a></li>
@@ -274,31 +274,39 @@
         </div>
     </center></div>
 </div>
-    {% if msg=='email'%}
-        <div class="alert alert-warning" style="max-width: 300px; background-color: black; position: fixed; right: 60px; bottom: 20px; color: white;" id="error">
-            Il n'existe aucun compte lié à cet email
-        </div>
-    {%elseif msg=='email'%}
+{% if msg=='email'%}
     <div class="alert alert-warning" style="max-width: 300px; background-color: black; position: fixed; right: 60px; bottom: 20px; color: white;" id="error">
-        Verifier votre mot de passe!
+        Il n'existe aucun compte lié à cet email
     </div>
-    {% elseif msg=='disconnected'%}
+{%elseif msg=='email'%}
+<div class="alert alert-warning" style="max-width: 300px; background-color: black; position: fixed; right: 60px; bottom: 20px; color: white;" id="error">
+    Verifier votre mot de passe!
+</div>
+{% elseif msg=='disconnected'%}
+<div class="alert alert-warning" style="max-width: 300px; background-color: black; position: fixed; right: 60px; bottom: 20px; color: white;" id="error">
+    Déconnecté!
+</div>
+{% elseif msg=='edited'%}
+<div class="alert alert-warning" style="max-width: 300px; background-color: black; position: fixed; right: 60px; bottom: 20px; color: white;" id="error">
+    Votre Compte a été modifié avec Succès! Connectez vous de nouveau!
+</div>
+{% elseif msg=='mail'%}
+<div class="alert alert-warning" style="max-width: 300px; background-color: black; position: fixed; right: 60px; bottom: 20px; color: white;" id="error">
+    Votre mail a été envoyé!
+</div>
+{% elseif msg=='notsent'%}
+<div class="alert alert-warning" style="max-width: 300px; background-color: black; position: fixed; right: 60px; bottom: 20px; color: white;" id="error">
+    Veuillez vous connecter d'abord!
+</div>
+{% elseif msg=='rdv'%}
     <div class="alert alert-warning" style="max-width: 300px; background-color: black; position: fixed; right: 60px; bottom: 20px; color: white;" id="error">
-        Déconnecté!
+        Demande de Rendez-vous soumise avec Succès, Vous recevrez un Mail de confirmation prochainement.
     </div>
-    {% elseif msg=='edited'%}
+{% elseif msg=='rec'%}
     <div class="alert alert-warning" style="max-width: 300px; background-color: black; position: fixed; right: 60px; bottom: 20px; color: white;" id="error">
-        Votre Compte a été modifié avec Succès! Connectez vous de nouveau!
+        Votre cv a été soumis avec succès
     </div>
-    {% elseif msg=='mail'%}
-    <div class="alert alert-warning" style="max-width: 300px; background-color: black; position: fixed; right: 60px; bottom: 20px; color: white;" id="error">
-        Votre mail a été envoyé!
-    </div>
-    {% elseif msg=='notsent'%}
-    <div class="alert alert-warning" style="max-width: 300px; background-color: black; position: fixed; right: 60px; bottom: 20px; color: white;" id="error">
-        Veuillez vous connecter d'abord!
-    </div>
-    {% endif %}
+{% endif %}
 
     <script src="js/map.js"></script>
     <script async defer

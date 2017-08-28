@@ -55,18 +55,41 @@ class RDVController extends Controller
         $user->setDes($request->get('des'));
         $em->persist($user);
         $em->flush();
-        return $this->redirectToRoute('homepage');
+        $email=$session->get('login')->getEmail();
+        $query="SELECT * FROM users WHERE email='$email';";
+        $em=$this->getDoctrine()->getEntityManager();
+        $stmt = $em->getConnection()->prepare($query);
+        $stmt->execute();
+        $res=$stmt->fetchAll();
+        foreach ($res as $r){
+            $name=$r['name'];
+            $fname=$r['fname'];
+            $birth=$r['birth'];
+        }
+        return $this->render('index.html.twig', array(
+            'msg'=> 'rdv',
+            'name'=>$name,
+            'fname'=>$fname,
+            'email'=>$email
+        ));
     }
     /**
      * @Route("/RDVList", name="RDVList")
      **/
     public function rdvList(Request $request,Session $session){
-        $query="SELECT * FROM rdv;";
-        $em=$this->getDoctrine()->getEntityManager();
-        $stmt = $em->getConnection()->prepare($query);
-        $stmt->execute();
-        $res=$stmt->fetchAll();
-        return $this->render('RDVList.html.twig',array ('data'=>$res));
+        if($session->has('login')){
+            $login=$session->get('login');
+            $email= $login->getEmail();
+            $password= $login->getPassword();
+            if ($login->getEmail()=='digitalize@admin.com' && $login->getPassword()=='7d5c37b2b576b733eeefcbfa4d6498c4d4623d21'){
+                $query="SELECT * FROM rdv;";
+                $em=$this->getDoctrine()->getEntityManager();
+                $stmt = $em->getConnection()->prepare($query);
+                $stmt->execute();
+                $res=$stmt->fetchAll();
+                return $this->render('RDVList.html.twig',array ('data'=>$res));
+            }return $this->render('Admin.html.twig',array('msg'=>'not connected'));
+        }return $this->render('Admin.html.twig',array('msg'=>'not connected'));
     }
 
 }

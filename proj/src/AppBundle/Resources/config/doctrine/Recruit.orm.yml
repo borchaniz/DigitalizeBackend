@@ -12,7 +12,6 @@ AppBundle\Entity\Recruit:
         email:
             type: string
             length: 255
-            unique: true
         name:
             type: string
             length: 255
