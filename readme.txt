@@ -3,7 +3,7 @@ To test this project:
 2. Run apache server from wamp or xampp
 3. Open command prompt or terminal in proj folder.
 4. Create database using following commands:
-    php bin/console doctrine:databsase:create
+    php bin/console doctrine:database:create
     php bin/console doctrine:schema:update --force
 5. Start symfony server with the following command:
     php bin/console server:start

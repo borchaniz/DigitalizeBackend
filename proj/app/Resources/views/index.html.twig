@@ -44,8 +44,10 @@
                 <li><a href="#services">Nos Services</a></li>
                 <li><a href="#carriere">Carrière</a></li>
                 {% if msg=='connected' or msg=='mail' %}
+                <li><a href="/RDV">Prendre un RDV</a></li>
                 <li><a href="/Recruit">join the team</a></li>
                 {%  else %}
+                <li><a onclick="on()">Prendre un RDV</a></li>
                 <li><a onclick="on()">join the team</a></li>
                 {%  endif %}
                 <li><a href="#contact">Contact</a></li>

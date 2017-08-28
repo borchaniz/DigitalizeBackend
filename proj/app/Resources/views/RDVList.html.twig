@@ -1,0 +1,62 @@
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+    <style>
+        body{
+            background-size: 100%;
+            margin-top: 60px;
+            background-repeat: no-repeat;
+        }
+
+        @media (max-width: 768px) {
+            form{
+                width:70%
+            }
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top opaque-navbar" style="background-color: black;: ">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"><img src="../../img/digitalize international1.png" height="200%"
+                                                      style="margin-top:0px; position:relative; top:-30%"></a>
+            </div>
+        </div>
+    </div>
+    <center>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Numéro de Telephone</td>
+                    <th>Date de RDV</td>
+                    <th>Heure de RDV</td>
+                    <th>Email</td>
+                    <th>Sujet</td>
+                    <th>Description</td>
+                </tr>
+            </thead>
+        <tbody>
+            {% for d in data %}
+            <tr>
+                <td>{{ d.name }}</td>
+                <td>{{ d.fname }}</td>
+                <td>{{ d.phone }}</td>
+                <td>{{ d.rdvdate }}</td>
+                <td>{{ d.rdvtime }}</td>
+                <td>{{ d.email }}</td>
+                <td>{{ d.suj }}</td>
+                <td>{{ d.des }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </center>
+</body>
+</html>

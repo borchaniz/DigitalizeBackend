@@ -1,0 +1,33 @@
+AppBundle\Entity\RDV:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\RDVRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        fname:
+            type: string
+            length: 255
+        email:
+            type: string
+            length: 255
+        phone:
+            type: integer
+        suj:
+            type: string
+            length: 255
+        des:
+            type: string
+            length: '1023'
+        rdvdate:
+            type: datetime
+        rdvtime:
+            type: time
+    lifecycleCallbacks: {  }
