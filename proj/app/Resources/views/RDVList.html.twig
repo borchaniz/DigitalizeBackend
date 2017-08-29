@@ -23,9 +23,13 @@
     <div class="navbar navbar-inverse navbar-fixed-top opaque-navbar" style="background-color: black;: ">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#"><img src="../../img/digitalize international1.png" height="200%"
-                                                      style="margin-top:0px; position:relative; top:-30%"></a>
+                <a class="navbar-brand" href="#"><img src="img/digitalize international1.png" height="200%" style="margin-top:0px; position:relative; top:-30%"></a>
             </div>
+            {% if msg=='connected' %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{ path('logout') }}">Quitter l'interface Administrateur <span class="glyphicon glyphicon-log-out"></span></a></li>
+                </ul>
+            {% endif %}
         </div>
     </div>
     <center>

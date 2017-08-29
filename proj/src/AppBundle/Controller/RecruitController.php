@@ -93,7 +93,7 @@ class RecruitController extends Controller
                 $stmt = $em->getConnection()->prepare($query);
                 $stmt->execute();
                 $res=$stmt->fetchAll();
-                return $this->render('RecruitList.html.twig',array ('data'=>$res));
+                return $this->render('RecruitList.html.twig',array ('data'=>$res,'msg'=> 'connected'));
             }return $this->render('Admin.html.twig',array('msg'=>'not connected'));
         }return $this->render('Admin.html.twig',array('msg'=>'not connected'));
     }

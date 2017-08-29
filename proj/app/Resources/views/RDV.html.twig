@@ -25,7 +25,9 @@
                 width:70%
             }
         }
-
+        textarea {
+            resize: none;
+        }
     </style>
 </head>
 
@@ -63,7 +65,7 @@
         <div align="left" style="font-family: "navFont", Arial, Helvetica, sans-serif"><b> Description</b></div>
         <br>
         <div class="form-group">
-            <input name="des" type="text" style="height:100%;width:100%;" class="form-control" id="des" value="{{ des }}" required>
+            <textarea class="form-control" name="des" type="text" rows="6" id="des" value="{{ des }}" required></textarea>
         </div>
         <button type="submit" class="btn btn-default fbutton">Prendre un Rendez-vous</button>
     </form>
